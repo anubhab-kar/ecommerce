@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project X - OTP Verification</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            color:#22c55e
+        }
+
+        /* This div covers the entire viewport and owns the background */
+        .page-bg {
+            min-height: 100vh;
+            width: 100%;
+            background-color: #034cdf;
+            padding: 48px 16px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+            color: #0f0fd3;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .email-wrapper {
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        /* ─── Card ─── */
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(99, 102, 241, 0.10), 0 1px 4px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+
+        /* ─── Brand Bar ─── */
+        .brand-bar {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            padding: 28px 32px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-bar .circle1 {
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.07);
+            top: -55px;
+            left: -45px;
+        }
+
+        .brand-bar .circle2 {
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.07);
+            bottom: -40px;
+            right: -30px;
+        }
+
+        .logo-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.18);
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-icon svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .logo-text {
+            font-size: 23px;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        /* ─── Card Body ─── */
+        .card-body {
+            padding: 36px 36px 32px;
+        }
+
+        .greeting {
+            font-size: 15px;
+            color: #64748b;
+            margin-bottom: 6px;
+        }
+
+        .greeting strong {
+            color: #1e1e2e;
+            font-weight: 600;
+        }
+
+        .verify-heading {
+            font-size: 22px;
+            font-weight: 600;
+            color: #1e1e2e;
+            letter-spacing: -0.3px;
+            margin-bottom: 10px;
+        }
+
+        .verify-sub {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.65;
+            margin-bottom: 28px;
+        }
+
+        /* ─── OTP Block ─── */
+        .otp-block {
+            background: #f4f6fb;
+            border: 2px dashed #dce4f2;
+            border-radius: 14px;
+            padding: 26px 16px 22px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .otp-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #6366f1;
+            margin-bottom: 12px;
+        }
+
+        .otp-code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: 12px;
+            color: #1e1e2e;
+            text-indent: 12px;
+        }
+
+        .otp-timer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            margin-top: 16px;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .otp-timer strong {
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .clock-icon {
+            width: 15px;
+            height: 15px;
+            display: inline-block;
+        }
+
+        /* ─── Info Note ─── */
+        .info-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 10px;
+            padding: 15px 16px;
+            margin-bottom: 8px;
+        }
+
+        .note-icon {
+            flex-shrink: 0;
+            width: 22px;
+            height: 22px;
+            background: #22c55e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1px;
+        }
+
+        .note-icon svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        .info-note p {
+            font-size: 13px;
+            color: #166534;
+            line-height: 1.55;
+        }
+
+        /* ─── Divider ─── */
+        .divider {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 28px 0 22px;
+        }
+
+        /* ─── Footer ─── */
+        .card-footer {
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 22px;
+            margin-bottom: 14px;
+        }
+
+        .footer-links a {
+            font-size: 12px;
+            color: #94a3b8;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: #6366f1;
+        }
+
+        .footer-copy {
+            font-size: 11.5px;
+            color: #94a3b8;
+        }
+
+        .footer-copy .brand-name {
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* ─── Bottom Help ─── */
+        .help-text {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 12.5px;
+            color: #64748b;
+        }
+
+        .help-text a {
+            color: #6366f1;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .help-text a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<!-- This wrapper owns the background — covers any forced dark body -->
+<div class="page-bg">
+    <div class="email-wrapper">
+        <div class="card">
+
+            <!-- Brand Bar -->
+            <div class="brand-bar">
+                <div class="circle1"></div>
+                <div class="circle2"></div>
+                <div class="logo-row">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 1L3 5.5V12c0 5.25 3.83 10.15 9 11.5 5.17-1.35 9-6.25 9-11.5V5.5L12 1z" fill="rgba(255,255,255,0.25)" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 12l2 2 4-4" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <span class="logo-text">Project X</span>
+                </div>
+            </div>
+
+            <!-- Card Body -->
+            <div class="card-body">
+
+                <p class="greeting">Hello, <strong><%= name %></strong></p>
+                <h2 class="verify-heading">Verify your email address</h2>
+                <p class="verify-sub">
+                    You requested a one-time verification code to complete your sign‑up.
+                    Use the code below to continue setting up your account.
+                </p>
+
+                <!-- OTP Box -->
+                <div class="otp-block">
+                    <div class="otp-label">Your Verification Code</div>
+                    <div class="otp-code"><%= otp %></div>
+                    <div class="otp-timer">
+                        <svg class="clock-icon" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        This code expires in <strong>15 minutes</strong>
+                    </div>
+                </div>
+
+                <!-- Info Note -->
+                <div class="info-note">
+                    <div class="note-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
+                    <p>
+                        If you did not request this code, you can safely ignore this email.
+                        Your account will not be affected.
+                    </p>
+                </div>
+
+                <!-- Divider -->
+                <div class="divider"></div>
+
+                <!-- Footer -->
+                <div class="card-footer">
+                    <div class="footer-links">
+                        <a href="#">Help Center</a>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                    </div>
+                    <p class="footer-copy">
+                        © 2026 <span class="brand-name">Project X</span>. All rights reserved.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Bottom Help -->
+        <p class="help-text">
+            Having trouble? <a href="#">Contact support</a>
+        </p>
+    </div>
+</div>
+
+</body>
+</html>
